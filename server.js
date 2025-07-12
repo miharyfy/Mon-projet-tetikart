@@ -10,7 +10,6 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// --- Middleware ---
 app.use(cookieParser());
 app.use(session({
   secret: "mihchat-secret-key",
@@ -19,22 +18,17 @@ app.use(session({
 }));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));  // static ho an'ny css sy js
 
-// 🔧 Ampiasaina mba hahitana style.css sy script.js
-app.use(express.static(__dirname));  // io no tena ilaina raha tsy mampiasa /public
-
-// 🔐 ROUTE: GET /
 app.get("/", (req, res) => {
   if (req.session.username) {
     let chatHtml = fs.readFileSync(path.join(__dirname, "chat.html"), "utf-8");
     chatHtml = chatHtml.replace("{{USERNAME}}", req.session.username);
     return res.send(chatHtml);
-  } else {
-    return res.sendFile(path.join(__dirname, "login.html"));
   }
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// 🔐 ROUTE: POST /login
 app.post("/login", (req, res) => {
   const { username } = req.body;
   if (username && username.trim() !== "") {
@@ -44,7 +38,6 @@ app.post("/login", (req, res) => {
   res.redirect("/");
 });
 
-// 🔌 SOCKET SESSION
 io.use((socket, next) => {
   const req = socket.request;
   const res = req.res;
@@ -57,7 +50,6 @@ io.use((socket, next) => {
   });
 });
 
-// 🔁 SOCKET CHAT
 io.on("connection", (socket) => {
   const username = socket.request.session.username;
   if (!username) return socket.disconnect(true);
@@ -67,6 +59,5 @@ io.on("connection", (socket) => {
   });
 });
 
-// ✅ START SERVER
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log("🚀 MihChat mandeha @ http://localhost:" + PORT));
