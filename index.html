@@ -1,19 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mg">
 <head>
-  <meta charset="UTF-8">
-  <title>MihChat - Login</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tetik'art - Impression Grand Format</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e0f2ff;
+      color: #1e3a8a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #1e40af;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+    .logo svg {
+      width: 32px;
+      height: 32px;
+      fill: #3b82f6;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #93c5fd;
+    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+    /* Products grid */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    /* Product card */
+    .product-card {
+      background-color: white;
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .product-image {
+  width: 100%;
+  height: 180px;      /* Haavo tsy miova */
+  overflow: hidden;   /* Manapaka izay mihoatra */
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: #f0f4ff; /* Loko kely ho background raha misy banga */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* Raha tianao ho feno ilay cadre */
+  /* Raha tianao hiseho manontolo ilay sary:
+  object-fit: contain;
+  background-color: white; */
+  display: block;
+}
+    .product-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .product-price {
+      color: #2563eb;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .product-details {
+      color: #3b82f6;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+    /* Formulaire commande */
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin-top: 20px;
+    }
+    form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 15px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    form button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    form button:hover {
+      background-color: #1e40af;
+    }
+    /* Social buttons */
+    .social-buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+    }
+    .social-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .facebook {
+      background-color: #1877f2;
+    }
+    .facebook:hover {
+      background-color: #145dbf;
+    }
+    .whatsapp {
+      background-color: #25d366;
+    }
+    .whatsapp:hover {
+      background-color: #1ebc4f;
+    }
+    .gmail {
+      background-color: #d14836;
+    }
+    .gmail:hover {
+      background-color: #a53527;
+    }
+    .social-button svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+    /* About section */
+    #about {
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-top: 50px;
+      line-height: 1.5;
+      color: #1e3a8a;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav ul {
+        gap: 15px;
+      }
+      .product-image img {
+        height: 140px;
+      }
+    }
+    #partners div {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+#partners img {
+  height: 60px;   /* refy raikitra ho an'ny haavo */
+  width: auto;    /* mba hitazona ny ratio tsy hiova */
+  object-fit: contain;
+  display: inline-block;
+}
+
+  </style>
 </head>
 <body>
-  <div class="chat-container">
-    <h2>Fidirana ao amin'ny MihChat</h2>
-    <form action="/login" method="POST">
-      <input name="username" placeholder="Anaranao" required />
-      <input name="password" type="password" placeholder="Teny miafina" required />
-      <button type="submit">Hiditra</button>
-    </form>
-    <p>Tsy mbola manana kaonty? <a href="/register">Misoratra anarana</a></p>
-  </div>
+
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 64 64" xmlns="/logo.jpg">
+        <circle cx="32" cy="32" r="30"/>
+      </svg>
+      Tetik'art
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#entana">Entana</a></li>
+        <li><a href="#commande">Commande</a></li>
+        <li><a href="#about">Momba anay</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="entana">
+      <h2>Entana</h2>
+      <div class="products">
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://via.placeholder.com/300x180.png?text=Autocollant" alt="Autocollant" />
+          </div>
+          <div class="product-title">Autocollant</div>
+          <div class="product-price">Vidiny arakaraka ny habeny</div>
+          <div class="product-details">Impression grand format</div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://via.placeholder.com/300x180.png?text=PVC" alt="PVC" />
+          </div>
+          <div class="product-title">PVC</div>
+          <div class="product-price">Vidiny arakaraka ny habeny</div>
+          <div class="product-details">Impression grand format</div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://via.placeholder.com/300x180.png?text=B%C3%A2che" alt="Bâche" />
+          </div>
+          <div class="product-title">Bâche</div>
+          <div class="product-price">Vidiny arakaraka ny habeny</div>
+          <div class="product-details">Impression grand format</div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://via.placeholder.com/300x180.png?text=Tissu+Drapeau" alt="Tissu Drapeau" />
+          </div>
+          <div class="product-title">Tissu Drapeau</div>
+          <div class="product-price">Vidiny arakaraka ny habeny</div>
+          <div class="product-details">Impression grand format</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="commande" style="margin-top: 50px;">
+      <h2>Commande</h2>
+      <form action="mailto:miharyfy02@gmail.com" method="post" enctype="text/plain" onsubmit="return confirm('Handefa ny commande ve ianao?')">
+        <label for="name">Anarana:</label>
+        <input type="text" id="name" name="Anarana" required />
+
+        <label for="phone">Nomeraon-telefaonina:</label>
+        <input type="tel" id="phone" name="Telefaona" required />
+
+        <label for="product">Entana tadiavina:</label>
+        <input type="text" id="product" name="Entana" required />
+
+        <label for="quantity">Isan'ny entana:</label>
+        <input type="number" id="quantity" name="Isan'ny entana" min="1" required />
+
+        <label for="note">Fanamarihana (tsy voatery):</label>
+        <textarea id="note" name="Fanamarihana" rows="3"></textarea>
+
+        <button type="submit">Alefa ny Commande</button>
+      </form>
+
+      <div class="social-buttons">
+        <a href="https://www.facebook.com/MihFX10" target="_blank" class="social-button facebook" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.324v21.352C0 23.407.595 24 1.325 24h11.494v-9.294H9.691v-3.622h3.128V8.414c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.764v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.405 24 24 23.407 24 22.676V1.324C24 .592 23.405 0 22.675 0z"/></svg>
+          Facebook
+        </a>
+
+        <a href="https://wa.me/261340000000" target="_blank" class="social-button whatsapp" aria-label="WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.8 11.8 0 01-1.587-5.638C.156 5.22 5.403 0 12.06 0c3.2 0 6.2 1.24 8.455 3.494a11.817 11.817 0 013.502 8.459c-.003 6.657-5.305 12.058-11.862 12.058a11.79 11.79 0 01-5.488-1.449L.057 24zm6.597-3.807c1.08.584 2.292.945 3.534 1.012 3.423.164 6.574-2.224 7.357-5.638.22-.854.33-1.79.288-2.755-.13-2.817-2.49-5.133-5.315-5.133-1.414 0-2.74.73-3.468 1.868-.362.527-.57 1.21-.57 1.904 0 .413.112.817.317 1.168.096.157.11.251.23.437.118.184.51.833.55.896.04.06.066.128.102.194.033.06.027.104.05.16.02.054.09.128.15.194.05.056.083.094.123.144.042.053.103.12.156.18.043.05.07.112.117.167.08.115.212.29.33zm-1.849-4.127c.119-.199.408-.323.692-.246.29.078.466.307.54.45.07.138.068.33-.04.507-.114.191-.341.4-.53.457-.188.058-.447-.006-.574-.113-.127-.11-.256-.375-.188-.652.066-.274.318-.52.364-.403z"/></svg>
+          WhatsApp
+        </a>
+
+        <a href="mailto:miharyfy02@gmail.com" class="social-button gmail" aria-label="Gmail">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18a2 2 0 002 2h16a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Gmail
+        </a>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>Momba anay</h2>
+      <p>
+        Tetik'art dia manam-pahaizana manokana amin'ny <strong>impression grand format</strong>, 
+        manome vokatra avo lenta ho an'ny <em>autocollant</em>, <em>PVC</em>, <em>bâche</em>, ary <em>tissu drapeau</em>.
+        Manampy anao izahay hampiroborobo ny marikao sy ny tetikasa amin'ny fomba matihanina sy mahafinaritra.
+      </p>
+      <p>
+        Miaraka amin'ny teknolojia farany sy fitaovana mandroso, dia manolotra kalitao tsara indrindra izahay 
+        mifanaraka amin'ny filan'ny mpanjifa tsirairay.
+      </p>
+      <p>
+        Raha mila fanazavana fanampiny na fanampiana amin'ny commande, aza misalasala mifandray aminay!
+      </p>
+    </section>
+
+    <section id="contact" style="margin-top: 50px;">
+      <h2>Contact</h2>
+      <p>Antsoy izahay: <a href="tel:+261337923296" style="color:#3b82f6;">033 79 232 96</a></p>
+      <p>Email: <a href="mailto:miharyfy02@gmail.com" style="color:#3b82f6;">miharyfy02@gmail.com</a></p>
+    </section>
+    <!-- Ampidiro ity eo ambanin'ny section contact -->
+    <section id="partners" style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ccc;">
+      <h3 style="color:#1e3a8a; margin-bottom: 15px;">opérateurs Malagasy</h3>
+      <p style="color:#1e3a8a; margin-bottom: 25px; max-width: 600px;">
+        Isika malagasy:
+      </p>
+      <div style="display: flex; gap: 40px; align-items: center; justify-content: center;">
+        <div>
+          <img src="https://cdn-ilcckdj.nitrocdn.com/QlUnTVTrZOOqlaTqMQtiukCnxjpNglhu/assets/images/optimized/rev-262d696/www.yas.mg/wp-content/uploads/2024/02/jem_logo-1.svg" alt="Yas Logo" />
+          <div style="font-weight: 600; color: #1e3a8a; margin-top: 5px;">Yas</div>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Airtel_logo-01.png/960px-Airtel_logo-01.png" alt="Airtel Logo" />
+          <div style="font-weight: 600; color: #1e3a8a; margin-top: 5px;">Airtel</div>
+        </div>
+        <div>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJbxXTNN1n-9ChoFHyjFrSG1WFA6cxwdkp_Q&s" alt="Orange Logo" />
+          <div style="font-weight: 600; color: #1e3a8a; margin-top: 5px;">Orange</div>
+        </div>
+      </div>
+    </section>    
+  </main>
+
 </body>
 </html>
